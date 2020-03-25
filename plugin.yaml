@@ -1,0 +1,28 @@
+plugins:
+  hooks_plugin:
+    executor: central_deployment_agent
+    package_name: cloudify-hooks-plugin
+    package_version: '1.0.0'
+
+workflows:
+
+  workflow_started:
+    mapping: hooks_plugin.cloudify_hooks.tasks.workflow_started
+    parameters: {}
+
+  workflow_succeeded:
+    mapping: hooks_plugin.cloudify_hooks.tasks.workflow_succeeded
+    parameters: {}
+
+  workflow_failed:
+    mapping: hooks_plugin.cloudify_hooks.tasks.workflow_failed
+    parameters: {}
+
+  workflow_cancelled:
+    mapping: hooks_plugin.cloudify_hooks.tasks.workflow_cancelled
+    parameters: {}
+
+  workflow_queued:
+    mapping: hooks_plugin.cloudify_hooks.tasks.workflow_queued
+    parameters: {}
+
