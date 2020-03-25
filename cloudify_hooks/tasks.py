@@ -15,6 +15,7 @@
 import logging
 
 from cloudify import manager
+from cloudify_rest_client.client import CloudifyClient
 
 logger = logging.getLogger('simple_example')
 logger.setLevel(logging.DEBUG)
@@ -23,11 +24,20 @@ fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
 
 
-def workflow_failed(inputs, *args, **kwargs):
-    logger.info("called: {}/{}/{}".format(repr(inputs), repr(args), repr(kwargs)))
+def workflow_failed(inputs, action=None, *args, **kwargs):
+    logger.info("called: {}/{}/{}"
+                .format(repr(inputs), repr(args), repr(kwargs)))
 
     client_config = inputs.get('client_config')
     if client_config:
         client = CloudifyClient(**client_config)
     else:
         client = manager.get_rest_client()
+
+    if (
+        inputs.get('deployment_id') == 'examples' and
+        inputs.get('workflow_id') == 'install'
+    ):
+        logger.info("Going to uninstall {}"
+                    .format(inputs.get('deployment_id')))
+        client.executions.start(inputs.get('deployment_id'), 'uninstall')
