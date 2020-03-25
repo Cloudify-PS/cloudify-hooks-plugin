@@ -21,21 +21,21 @@ fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
 
 
-def workflow_started(ctx, *args, **kwargs):
-    logger.info("called: {}/{}/{}".format(repr(ctx), repr(args), repr(kwargs)))
+def workflow_started(inputs, *args, **kwargs):
+    logger.info("called: {}/{}/{}".format(repr(inputs), repr(args), repr(kwargs)))
 
 
-def workflow_succeeded(ctx, *args, **kwargs):
-    logger.info("called: {}/{}/{}".format(repr(ctx), repr(args), repr(kwargs)))
+def workflow_succeeded(inputs, *args, **kwargs):
+    logger.info("called: {}/{}/{}".format(repr(inputs), repr(args), repr(kwargs)))
 
 
-def workflow_failed(ctx, *args, **kwargs):
-    logger.info("called: {}/{}/{}".format(repr(ctx), repr(args), repr(kwargs)))
+def workflow_failed(inputs, *args, **kwargs):
+    logger.info("called: {}/{}/{}".format(repr(inputs), repr(args), repr(kwargs)))
 
 
-def workflow_cancelled(ctx, *args, **kwargs):
-    logger.info("called: {}/{}/{}".format(repr(ctx), repr(args), repr(kwargs)))
+def workflow_cancelled(inputs, *args, **kwargs):
+    logger.info("called: {}/{}/{}".format(repr(inputs), repr(args), repr(kwargs)))
 
 
-def workflow_queued(ctx, *args, **kwargs):
-    logger.info("called: {}/{}/{}".format(repr(ctx), repr(args), repr(kwargs)))
+def workflow_queued(inputs, *args, **kwargs):
+    logger.info("called: {}/{}/{}".format(repr(inputs), repr(args), repr(kwargs)))
