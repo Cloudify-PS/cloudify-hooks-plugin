@@ -12,23 +12,30 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import logging
+
+logger = logging.getLogger('simple_example')
+logger.setLevel(logging.DEBUG)
+fh = logging.FileHandler('/tmp/hooks.log')
+fh.setLevel(logging.DEBUG)
+logger.addHandler(fh)
 
 
 def workflow_started(ctx, *args, **kwargs):
-    ctx.logger.info("called: {}/{}".format(repr(args), repr(kwargs)))
+    logger.info("called: {}/{}/{}".format(repr(ctx), repr(args), repr(kwargs)))
 
 
 def workflow_succeeded(ctx, *args, **kwargs):
-    ctx.logger.info("called: {}/{}".format(repr(args), repr(kwargs)))
+    logger.info("called: {}/{}/{}".format(repr(ctx), repr(args), repr(kwargs)))
 
 
 def workflow_failed(ctx, *args, **kwargs):
-    ctx.logger.info("called: {}/{}".format(repr(args), repr(kwargs)))
+    logger.info("called: {}/{}/{}".format(repr(ctx), repr(args), repr(kwargs)))
 
 
 def workflow_cancelled(ctx, *args, **kwargs):
-    ctx.logger.info("called: {}/{}".format(repr(args), repr(kwargs)))
+    logger.info("called: {}/{}/{}".format(repr(ctx), repr(args), repr(kwargs)))
 
 
 def workflow_queued(ctx, *args, **kwargs):
-    ctx.logger.info("called: {}/{}".format(repr(args), repr(kwargs)))
+    logger.info("called: {}/{}/{}".format(repr(ctx), repr(args), repr(kwargs)))
