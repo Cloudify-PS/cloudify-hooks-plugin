@@ -12,21 +12,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import logging
-
+from cloudify import ctx
 from cloudify import manager
+from cloudify.decorators import workflow
 from cloudify_rest_client.client import CloudifyClient
 
-logger = logging.getLogger('simple_example')
-logger.setLevel(logging.DEBUG)
-fh = logging.FileHandler('/tmp/hooks.log')
-fh.setLevel(logging.DEBUG)
-logger.addHandler(fh)
 
-
+@workflow
 def workflow_failed(inputs, action=None, *args, **kwargs):
-    logger.info("called: {}/{}/{}"
-                .format(repr(inputs), repr(args), repr(kwargs)))
+    _ctx = kwargs.get('ctx', ctx)
+
+    _ctx.logger.info("called: {}/{}/{}"
+                     .format(repr(inputs), repr(args), repr(kwargs)))
 
     client_config = inputs.get('client_config')
     if client_config:
@@ -38,6 +35,6 @@ def workflow_failed(inputs, action=None, *args, **kwargs):
         inputs.get('deployment_id') == 'examples' and
         inputs.get('workflow_id') == 'install'
     ):
-        logger.info("Going to uninstall {}"
-                    .format(inputs.get('deployment_id')))
+        _ctx.logger.info("Going to uninstall {}"
+                         .format(inputs.get('deployment_id')))
         client.executions.start(inputs.get('deployment_id'), 'uninstall')
