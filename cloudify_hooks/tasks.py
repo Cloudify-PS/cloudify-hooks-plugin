@@ -14,6 +14,8 @@
 # limitations under the License.
 import logging
 
+from cloudify import manager
+
 logger = logging.getLogger('simple_example')
 logger.setLevel(logging.DEBUG)
 fh = logging.FileHandler('/tmp/hooks.log')
@@ -21,21 +23,11 @@ fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
 
 
-def workflow_started(inputs, *args, **kwargs):
-    logger.info("called: {}/{}/{}".format(repr(inputs), repr(args), repr(kwargs)))
-
-
-def workflow_succeeded(inputs, *args, **kwargs):
-    logger.info("called: {}/{}/{}".format(repr(inputs), repr(args), repr(kwargs)))
-
-
 def workflow_failed(inputs, *args, **kwargs):
     logger.info("called: {}/{}/{}".format(repr(inputs), repr(args), repr(kwargs)))
 
-
-def workflow_cancelled(inputs, *args, **kwargs):
-    logger.info("called: {}/{}/{}".format(repr(inputs), repr(args), repr(kwargs)))
-
-
-def workflow_queued(inputs, *args, **kwargs):
-    logger.info("called: {}/{}/{}".format(repr(inputs), repr(args), repr(kwargs)))
+    client_config = inputs.get('client_config')
+    if client_config:
+        client = CloudifyClient(**client_config)
+    else:
+        client = manager.get_rest_client()
