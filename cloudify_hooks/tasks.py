@@ -17,6 +17,7 @@ from cloudify import manager
 from cloudify.decorators import workflow
 
 
+# callback name from hooks config
 @workflow
 def workflow_failed(inputs, *args, **kwargs):
     # get current context
