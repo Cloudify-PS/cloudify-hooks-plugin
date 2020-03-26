@@ -7,31 +7,12 @@ inputs:
 
    raise_failure_first:
      description: do we raise exeption on action
-     default: cloudify.interfaces.lifecycle.<action_name>
-
-   raise_failure_second:
-     description: do we raise exeption on action
      default: cloudify.interfaces.lifecycle.start
-
-   partner_name:
-     description: Partner name
-     default: ACME Partner
-
-   customer_name:
-     description: Customer name
-     default: ACME Customer
 
 node_types:
 
   failure:
     derived_from: cloudify.nodes.Root
-    properties:
-      node_description:
-        default: We will fail.
-      node_error_message:
-        default: We failed.
-      node_intructions:
-        default: houston, we have a problem.
     interfaces:
       cloudify.interfaces.lifecycle:
         create:
@@ -72,30 +53,3 @@ node_templates:
         start:
           inputs:
              failure: { get_input: raise_failure_first }
-
-  failure_second:
-    type: failure
-    interfaces:
-      cloudify.interfaces.lifecycle:
-        create:
-          inputs:
-             failure: { get_input: raise_failure_second }
-        configure:
-          inputs:
-             failure: { get_input: raise_failure_second }
-        start:
-          inputs:
-             failure: { get_input: raise_failure_second }
-    relationships:
-      - type: cloudify.relationships.depends_on
-        target: failure_first
-
-outputs:
-
-  partner_name:
-    description: Partner name
-    value: { get_input: partner_name }
-
-  customer_name:
-    description: Customer name
-    value: { get_input: customer_name }

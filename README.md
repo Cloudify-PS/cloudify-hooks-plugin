@@ -13,5 +13,10 @@ hooks:
 [Look to documentation for more information](https://docs.cloudify.co/5.0.5/developer/writing_plugins/packaging-your-plugin/).
 * check that all deployments with `autouninstall` prefix uninstalled.
 ```shell
-
+# will be uninstalled after install
+cfy install cloudify_hooks/examples/check-failure.yaml -b autouninstall_check1
+# will save alive as deployments is not failed
+cfy install cloudify_hooks/examples/check-failure.yaml -b autouninstall_check2 -i raise_failure_first=ignore_action
+# will be stay failed
+cfy install cloudify_hooks/examples/check-failure.yaml -b noprefix_check3
 ```
