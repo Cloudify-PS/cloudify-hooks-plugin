@@ -19,22 +19,25 @@ from cloudify_rest_client.client import CloudifyClient
 
 
 @workflow
-def workflow_failed(inputs, action=None, *args, **kwargs):
+def workflow_failed(inputs, *args, **kwargs):
+    # get current context
     _ctx = kwargs.get('ctx', ctx)
 
+    # dump current parameters
     _ctx.logger.info("called: {}/{}/{}"
                      .format(repr(inputs), repr(args), repr(kwargs)))
 
-    client_config = inputs.get('client_config')
-    if client_config:
-        client = CloudifyClient(**client_config)
-    else:
-        client = manager.get_rest_client()
+    # get client from current manager
+    client = manager.get_rest_client()
 
     if (
-        inputs.get('deployment_id') == 'examples' and
+        # prefix of deployments for uninstall
+        inputs.get('deployment_id').startswith('autouninstall') and
+        # if workflow is install
         inputs.get('workflow_id') == 'install'
     ):
+        # mark that we going to uninstall to logs
         _ctx.logger.info("Going to uninstall {}"
                          .format(inputs.get('deployment_id')))
+        # send uninstall event
         client.executions.start(inputs.get('deployment_id'), 'uninstall')
