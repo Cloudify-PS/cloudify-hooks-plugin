@@ -15,7 +15,6 @@
 from cloudify import ctx
 from cloudify import manager
 from cloudify.decorators import workflow
-from cloudify_rest_client.client import CloudifyClient
 
 
 @workflow
